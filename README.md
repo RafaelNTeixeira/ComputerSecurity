@@ -1,9 +1,9 @@
 
 Breve descrição do grupo
 
-* Turno: [L]XX
-* Grupo: YY
+* Turno: L01
+* Grupo: 07
 * Alunos:
-    - Aluno1 upZZZZZ 
-    - Aluno2 upZZZZZ
-    - Aluno3 upZZZZZ
+    - João Pedro Moreira Costa up202108714 
+    - Rafael Neves Teixeira up202108831
+    - Vicente Salvador Martínez Lora up202006950

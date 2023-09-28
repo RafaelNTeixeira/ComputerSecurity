@@ -4,7 +4,7 @@
 
 - CVE-2023-27350 - Authentication Bypass (the attacker bypasses the authentication process entirely, being able to escalate privileges, move to other pages, steal or alter data, or download malicious firmware)
 
-- This vulnerability remote attackers to bypass authentication and execute arbitrary code on affected installations of PaperCut
+- This vulnerability allows attackers to bypass authentication and execute arbitrary code on affected installations of PaperCut
 
 - The specific flaw exists within the SetupCompleted class, resulting from improper access control
 

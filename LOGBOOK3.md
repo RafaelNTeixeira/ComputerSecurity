@@ -8,7 +8,7 @@ Desafio 1:
 1. Acedemos ao url fornecido e explorámos os produtos vendidos
 2. Encontrámos um produto com um comentário a denunciar problemas de segurança
 3. Verificámos as versões do WordPress e Plugins do produto
-4. Encontrámos no footer um aviso de que a o próprio vendedor utiliza os mesmos plugins e WordPress
+4. Encontrámos no footer um aviso de que o próprio vendedor utiliza os mesmos plugins e WordPress
 5. Procurámos CVE's correspondentes à informação recolhida
 6. Encontrámos 2 possíveis candidatos e um deles estava correto
 
@@ -35,6 +35,7 @@ Desafio 2:
 
 ## Exploit
 
+O exploit utilizado por nós foi encontrado no url https://www.exploit-db.com/exploits/50299
 
 
 ## Ataques

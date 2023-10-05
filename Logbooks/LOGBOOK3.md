@@ -15,9 +15,15 @@ Challenge 1:
 Challenge 2:
 1. We used the provided exploit at https://www.exploit-db.com/exploits/50299.
 2. Initially, we encountered issues trying to run the file without the correct permissions and with the wrong Python version.
-3. When accessing the address provided http://ctf-fsi.fe.up.pt:5001/wp-json/wp/v2/users/1 (being 1 the user id) by the exploiter, we verify that the id belongs to the admin
+3. When accessing the address provided http://ctf-fsi.fe.up.pt:5001/wp-json/wp/v2/users/1 (being 1 the user id) by the exploiter, we verified that the id belongs to the admin
+
+![CheckAdminID](https://git.fe.up.pt/fsi/fsi2324/logs/l01g07/-/blob/main/Logbooks/img/checkAdminID.png)
+
 4. We executed the exploit with the target's URL and ID 1.
 5. We obtained 3 possible URLs, and one of them granted us administrator privileges.
+
+![HashCodes](https://git.fe.up.pt/fsi/fsi2324/logs/l01g07/-/blob/main/Logbooks/img/3HashCodes.png)
+
 6. We accessed the provided posts section at http://ctf-fsi.fe.up.pt:5001/wp-admin/edit.php.
 7. In an admin post, we found the flag.
 
@@ -155,3 +161,7 @@ It's a python script that takes a URL and a user ID as parameters. It, then, gen
 ## Atacks
 
 When gaining access to the website as an admin, we found that the attacker can edit the contents he would like such as the home page:
+
+![AdminControl1](https://git.fe.up.pt/fsi/fsi2324/logs/l01g07/-/blob/main/Logbooks/img/adminControl1.png)
+
+![AdminControl2](https://git.fe.up.pt/fsi/fsi2324/logs/l01g07/-/blob/main/Logbooks/img/adminControl2.png)

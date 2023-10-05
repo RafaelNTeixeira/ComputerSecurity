@@ -2,7 +2,7 @@
 
 ## CTF - Semana 3
 
-Sanity Check: A flag estava nas regras como descrito.
+Sanity Check: The flag was on the rules as stated.
 
 Desafio 1:
 1. Acedemos ao url fornecido e explorámos os produtos vendidos
@@ -24,7 +24,7 @@ Desafio 2:
 
 - CVE-2021-34646 - WordPress Plugin WooCommerce Booster Plugin 5.4.3 - Authentication Bypass (https://www.exploit-db.com/exploits/50299)
 
-- This vulnerability allows remote attackers to bypass authentication and act as other users.
+- This vulnerability allows remote attackers to bypass authentication and act as other users. The WooCommerce Booster Plugin has a weak random token generation in the reset_and_mail_activation_link function found in the ~/includes/class-wcj-emails-verification.php file. Attackers can easily generate a token that, when used with the process_email_verification function, allows the impersonation of users, including administrators.This vulnerability requires the "Email Verification" module and the "Login User After Successful Verification" setting to be enabled, which it is by default.
 
 - Affected systems:
     - WordPress Plugin WooCommerce Booster Plugin 5.4.3 (inclusive)
@@ -35,7 +35,7 @@ Desafio 2:
 
 ## Exploit
 
-O exploit utilizado por nós foi encontrado no url https://www.exploit-db.com/exploits/50299
+The exploit used by us was foun in the following url: https://www.exploit-db.com/exploits/50299
 
 
 ## Ataques

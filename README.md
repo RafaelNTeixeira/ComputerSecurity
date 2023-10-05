@@ -5,6 +5,6 @@
     - Rafael Neves Teixeira up202108831
     - Vicente Salvador Martínez Lora up202006950
 
-> [Class #2](Logbooks/LOGBOOK2.md)
+> [Class #2](/Logbooks/LOGBOOK2.md)
 
-> [Class #3](Logbooks/LOGBOOK3.md)
+> [Class #3](/Logbooks/LOGBOOK3.md)

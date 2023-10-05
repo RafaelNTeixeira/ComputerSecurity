@@ -160,7 +160,7 @@ It's a python script that takes a URL and a user ID as parameters. It, then, gen
 
 ## Atacks
 
-When gaining access to the website as an admin, we found that the attacker can edit the contents he would like such as the home page:
+When gaining access to the website as an admin, we found that the attacker can edit the contents he would like such as posts and the home page.
 
 ![AdminControl1](/Logbooks/img/adminControl1.png)
 

@@ -1,43 +1,44 @@
-# Trabalho realizado na Semana #3
+# Work done in week #3
 
-## CTF - Semana 3
+## CTF - Week 3
 
 Sanity Check: The flag was on the rules as stated.
 
-Desafio 1:
-1. Acedemos ao url fornecido e explorámos os produtos vendidos
-2. Encontrámos um produto com um comentário a denunciar problemas de segurança
-3. Verificámos as versões do WordPress e Plugins do produto
-4. Encontrámos no footer um aviso de que o próprio vendedor utiliza os mesmos plugins e WordPress
-5. Procurámos CVE's correspondentes à informação recolhida
-6. Encontrámos 2 possíveis candidatos e um deles estava correto
+Challenge 1:
+1. We accessed the provided URL and explored the products being sold.
+2. We found a product with a comment reporting security issues.
+3. We checked the versions of WordPress and plugins for the product.
+4. We noticed a footer message stating that the seller uses the same plugins and WordPress.
+5. We searched for CVEs (Common Vulnerabilities and Exposures) corresponding to the collected information.
+6. We found 2 possible candidates, and one of them was correct.
 
-Desafio 2:
-1. Utilizámos o Exploit fornecido em https://www.exploit-db.com/exploits/50299
-2. Inicialmente tivemos problemas por tentar correr o ficheiro sem as permissões corretas e com a versão errada do Python
-3. Corremos o exploit com o url do alvo e o id 1 (provável id do ADMIN)
-4. Obtivémos 3 possíveis url's e um deles forneceu-nos privilégios de administrador
-5. Acedemos à secção de posts fornecida http://ctf-fsi.fe.up.pt:5001/wp-admin/edit.php
-6. Num post do admin, encontrámos a flag
+Challenge 2:
+1. We used the provided exploit at https://www.exploit-db.com/exploits/50299.
+2. Initially, we encountered issues trying to run the file without the correct permissions and with the wrong Python version.
+3. We executed the exploit with the target's URL and ID 1 (likely the ADMIN ID).
+4. We obtained 3 possible URLs, and one of them granted us administrator privileges.
+5. We accessed the provided posts section at http://ctf-fsi.fe.up.pt:5001/wp-admin/edit.php.
+6. In an admin post, we found the flag.
 
-## Identificação
+## Identification
 
 - CVE-2021-34646 - WordPress Plugin WooCommerce Booster Plugin 5.4.3 - Authentication Bypass (https://www.exploit-db.com/exploits/50299)
 
-- This vulnerability allows remote attackers to bypass authentication and act as other users. The WooCommerce Booster Plugin has a weak random token generation in the reset_and_mail_activation_link function found in the ~/includes/class-wcj-emails-verification.php file. Attackers can easily generate a token that, when used with the process_email_verification function, allows the impersonation of users, including administrators.This vulnerability requires the "Email Verification" module and the "Login User After Successful Verification" setting to be enabled, which it is by default.
+- This vulnerability allows remote attackers to bypass authentication and act as other users. The WooCommerce Booster Plugin has a weak random token generation in the reset_and_mail_activation_link function found in the ~/includes/class-wcj-emails-verification.php file. Attackers can easily generate a token that, when used with the process_email_verification function, allows the impersonation of users, including administrators. This vulnerability requires the "Email Verification" module and the "Login User After Successful Verification" setting to be enabled, which it is by default.
 
 - Affected systems:
     - WordPress Plugin WooCommerce Booster Plugin 5.4.3 (inclusive)
 
-## Catalogação
+## Catalogue
 
 - This exploit garnered an exceptionally high CVSS score of 9.8 out of 10, signifying its extreme criticality.
 
 ## Exploit
 
-The exploit used by us was foun in the following url: https://www.exploit-db.com/exploits/50299
+The exploit used by us was found in the following url: https://www.exploit-db.com/exploits/50299
 
+It's a python scrypt that takes a URL and a user ID as parameters. It, then, generates possible email verification tokens for that user, through the known weak token generation method. Finaly, it creates various URLs with those tokens, of which, one of them can authenticate the attacker as the user for the given URL.
 
-## Ataques
+## Atacks
 
 

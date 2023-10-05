@@ -37,7 +37,7 @@ Challenge 2:
 
 The exploit used by us was found in the following url: https://www.exploit-db.com/exploits/50299
 
-It's a python scrypt that takes a URL and a user ID as parameters. It, then, generates possible email verification tokens for that user, through the known weak token generation method. Finaly, it creates various URLs with those tokens, of which, one of them can authenticate the attacker as the user for the given URL.
+It's a python script that takes a URL and a user ID as parameters. It, then, generates possible email verification tokens for that user, through the known weak token generation method. Finaly, it creates various URLs with those tokens, of which, one of them can authenticate the attacker as the user for the given URL.
 
 ## Atacks
 

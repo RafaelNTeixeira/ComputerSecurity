@@ -140,7 +140,7 @@ for i in range(3): # We need to try multiple timestamps as we don't get the exac
 - This vulnerability allows remote attackers to bypass authentication and act as other users. The WooCommerce Booster Plugin has a weak random token generation in the reset_and_mail_activation_link function found in the ~/includes/class-wcj-emails-verification.php file. Attackers can easily generate a token that, when used with the process_email_verification function, allows the impersonation of users, including administrators. This vulnerability requires the "Email Verification" module and the "Login User After Successful Verification" setting to be enabled, which it is by default.
 
 - Affected systems:
-    - WordPress Plugin WooCommerce Booster Plugin 5.4.3 (inclusive)
+    - WordPress Plugin WooCommerce Booster Plugin 5.4.3
 
 ## Catalogue
 
@@ -154,5 +154,5 @@ It's a python script that takes a URL and a user ID as parameters. It, then, gen
 
 ## Atacks
 
-When gaining access to the website as an admin, we found that the attacker can edit the contents we would like such as the home page:
+When gaining access to the website as an admin, we found that the attacker can edit the contents he would like such as the home page:
 

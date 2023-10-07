@@ -68,7 +68,7 @@ void main()
 
 3. Changed `execve("/usr/bin/env", argv, NULL);` to `execve("/usr/bin/env", argv, environ);` on the file and compiled and ran it. This time there was output since we inserted the pointer to the array of the parent processe's environment variables (environ) in the third argument of the function execve, printing out the environment variables of the parent's process.
 
-![Output2](https://git.fe.up.pt/fsi/fsi2324/logs/l01g07/-/blob/main/Logbooks/img/Week4/Task3.3.png)
+![Output2](/Logbooks/img/Week4/Task3.3.png)
 
 **myenv.c:**
 
@@ -115,17 +115,17 @@ int main()
 
 2. Compile the program, change its ownership to root and make it a SET-UID program.
 
-![ChangeOwnership](https://git.fe.up.pt/fsi/fsi2324/logs/l01g07/-/blob/main/Logbooks/img/Week4/Task5.2.png)
+![ChangeOwnership](/Logbooks/img/Week4/Task5.2.png)
 
 3. Set the PATH, LD_LIBRARY_PATH and ANY_NAME environment variables to random values and ran the program.
 
-![ChangeEV](https://git.fe.up.pt/fsi/fsi2324/logs/l01g07/-/blob/main/Logbooks/img/Week4/Task5.3.png)
+![ChangeEV](/Logbooks/img/Week4/Task5.3.png)
 
 4. When checking the results we discovered that only the LD_LIBRARY_PATH environment variable wasn't present and that ANY_NAME and PATH had changed.
 
-![ANY_NAME](https://git.fe.up.pt/fsi/fsi2324/logs/l01g07/-/blob/main/Logbooks/img/Week4/Task5.4.1.png)
+![ANY_NAME](/Logbooks/img/Week4/Task5.4.1.png)
 
-![PATH](https://git.fe.up.pt/fsi/fsi2324/logs/l01g07/-/blob/main/Logbooks/img/Week4/Task5.4.2.png)
+![PATH](/Logbooks/img/Week4/Task5.4.2.png)
 
 
 

@@ -58,9 +58,37 @@ void main()
 
 ## Task 3: Environment Variables and execve()
 
+1. Compiled and ran myenv.c, program made to print out the environment variables of the current process.
 
+![CompileTask3]()
 
+2. There was no output because since execve() receives NULL in the third argument (array of environment variables), the new process has no environment variables 
 
+![Output1]()
+
+3. Changed `execve("/usr/bin/env", argv, NULL);` to `execve("/usr/bin/env", argv, environ);` on the file and compiled and ran it. This time there was output since we inserted the pointer to the array of the parent processe's environment variables (environ) in the third argument of the function execve, printing out the environment variables of the parent's process.
+
+![Output2]()
+
+**myenv.c:**
+
+```c++
+#include <unistd.h>
+
+extern char **environ;
+
+int main()
+{
+  char *argv[2];
+
+  argv[0] = "/usr/bin/env";
+  argv[1] = NULL;
+
+  execve("/usr/bin/env", argv, environ);  
+
+  return 0 ;
+}
+```
 
 
 

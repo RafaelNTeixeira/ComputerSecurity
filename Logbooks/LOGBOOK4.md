@@ -1,10 +1,9 @@
-# Trabalho realizado na Semana #4 - SEEDs LAB
+# Trabalho realizado na Semana #4 - Environment Variable and Set-UID Lab
 
-## Environment Variable and Set-UID Lab
 For this week we where proposed to do tasks presented on this link:
 https://seedsecuritylabs.org/Labs_20.04/Software/Environment_Variable_and_SetUID/
 
-### Task 1: Manipulating Environment Variables
+## Task 1: Manipulating Environment Variables
 1. Use printenv/env to print out the environment variables
 
 ![PrintenvEnv]()
@@ -14,8 +13,7 @@ https://seedsecuritylabs.org/Labs_20.04/Software/Environment_Variable_and_SetUID
 ![ExportUnset]()
 
 
-### Task 2: Passing Environment Variables from Parent Process to Child Process
-
+## Task 2: Passing Environment Variables from Parent Process to Child Process
 1. We compiled and ran the myprintenv.c file by typping "gcc myprintenv.c". This program could be found in the Labsetup folder when cloning this repository https://github.com/seed-labs/seed-labs. With this, a file a.out was generated and we ran it too and saved its output into a file using "a.out > file".
 
 ![Compile]()
@@ -58,7 +56,7 @@ void main()
 ```
 
 
-### Task 3: Environment Variables and execve()
+## Task 3: Environment Variables and execve()
 
 
 

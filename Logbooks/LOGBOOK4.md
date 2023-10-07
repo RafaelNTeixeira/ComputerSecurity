@@ -90,12 +90,42 @@ int main()
 }
 ```
 
+## Task 4: Environment Variables and system()
+
+1. Created the file system1.c with the given segment of code in the lab. This file is similar to the one presented in Task 3 but it differs on how the calls are made since system() is used. This way, system() calls execl(), execl() calls execve() and /bin/sh is executed with the argument given to system(). With this, the parent's process environment variables are printed out.
 
 
+**system1.c:**
+
+```c++
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    system("/usr/bin/env");
+    return 0 ;
+}
+```
 
 
+## Task 5: Environment Variable and Set-UID Programs
 
+1. Create a file (printAllEV.c) with the segment of code given in the lab, that prints all the environment variables in the current process.
 
+2. Compile the program, change its ownership to root and make it a SET-UID program.
+
+![ChangeOwnership]()
+
+3. Set the PATH, LD_LIBRARY_PATH and ANY_NAME environment variables to random values and ran the program.
+
+![ChangeEV]()
+
+4. When checking the results we discovered that only the LD_LIBRARY_PATH environment variable wasn't present and that PATH and ANY_NAME had changed.
+
+![PATH]()
+
+![ANY_NAME]()
 
 
 

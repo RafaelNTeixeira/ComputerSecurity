@@ -115,17 +115,18 @@ int main()
 
 2. Compile the program, change its ownership to root and make it a SET-UID program.
 
-![ChangeOwnership]()
+![ChangeOwnership](https://git.fe.up.pt/fsi/fsi2324/logs/l01g07/-/blob/main/Logbooks/img/Week4/Task5.2.png)
 
 3. Set the PATH, LD_LIBRARY_PATH and ANY_NAME environment variables to random values and ran the program.
 
-![ChangeEV]()
+![ChangeEV](https://git.fe.up.pt/fsi/fsi2324/logs/l01g07/-/blob/main/Logbooks/img/Week4/Task5.3.png)
 
-4. When checking the results we discovered that only the LD_LIBRARY_PATH environment variable wasn't present and that PATH and ANY_NAME had changed.
+4. When checking the results we discovered that only the LD_LIBRARY_PATH environment variable wasn't present and that ANY_NAME and PATH had changed.
 
-![PATH]()
+![ANY_NAME](https://git.fe.up.pt/fsi/fsi2324/logs/l01g07/-/blob/main/Logbooks/img/Week4/Task5.4.1.png)
 
-![ANY_NAME]()
+![PATH](https://git.fe.up.pt/fsi/fsi2324/logs/l01g07/-/blob/main/Logbooks/img/Week4/Task5.4.2.png)
+
 
 
 

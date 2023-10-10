@@ -134,18 +134,16 @@ int main()
 
 2. On the given file (we called it manipulate.c), the program executes the system function calling the command `ls`. This way we can manipulate the environment variables to trick the program into calling another version created by us of `ls`
 
-![runningManipulateFile]()
-
 3. Following the seed labs guide, we now created a new file called manipulate1.c that makes the user gain access to a file that is highly permission restrictive.
 
 **Before running manipulate1:**
 
-![beforeManipulate1]()
+![beforeManipulate1](/Logbooks/img/Week4/beforeManipulate1.png)
 
 
 **After running manipulate1:**
 
-![afterManipulate1]()
+![afterManipulate1](/Logbooks/img/Week4/afterManipulate1.png)
 
 
 **manipulate.c:** 

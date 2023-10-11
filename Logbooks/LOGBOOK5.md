@@ -81,7 +81,7 @@ r.interactive()
 ```
 
 **Observations:**
-- There isn't a function there checks overflows
+- There isn't a function that checks for overflows
 - The buffer value is read through scanf(), an input function
 - The file is saved in an array that is located right above the variable buffer
 - Flag is saved in a text file called flag.txt

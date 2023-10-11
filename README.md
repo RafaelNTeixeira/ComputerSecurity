@@ -8,3 +8,7 @@
 > [Class #2](/Logbooks/LOGBOOK2.md)
 
 > [Class #3](/Logbooks/LOGBOOK3.md)
+
+> [Class #4](/Logbooks/LOGBOOK4.md)
+
+> [Class #5](/Logbooks/LOGBOOK5.md)

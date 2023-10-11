@@ -16,11 +16,11 @@ https://seedsecuritylabs.org/Labs_20.04/Software/Environment_Variable_and_SetUID
 ## Task 2: Passing Environment Variables from Parent Process to Child Process
 1. We compiled and ran the myprintenv.c file by typping "gcc myprintenv.c". This program could be found in the Labsetup folder when cloning this repository https://github.com/seed-labs/seed-labs. With this, a file a.out was generated and we ran it too and saved its output into a file using "a.out > file".
 
-![Compile](/main/Logbooks/img/Week4/Task2.1.png)
+![Compile](/Logbooks/img/Week4/Task2.1.png)
 
 2. For step 2, we now commented the printenv() statement in the child case and uncommented the printenv() in the parent process case. By compiling and running the code again, we discovered with the help of the diff command that the output was the same for both programs, meaning the environment variables are the same for a parent process and its child process when created through the default configuration of fork
 
-![ResultComparison](https://git.fe.up.pt/fsi/fsi2324/logs/l01g07/-/blob/main/Logbooks/img/Week4/Tasks2.2.png)
+![ResultComparison](/Logbooks/img/Week4/Tasks2.2.png)
 
 
 **myprintenv.c:**

@@ -174,3 +174,22 @@ int main() {
 }
 ```
 
+# CTF - Control The Flag
+
+1. We entered the given server using this command `nc ctf-fsi.fe.up.pt 4006`.
+
+2. We checked the available files and respective permissions. The admin left a note that gave us a hint that accessing the /tmp folder will be important to find the flag.
+
+**Permissions of the files:**
+
+![Permissions](/Logbooks/img/Week4/permissions.png)
+
+
+**my_script.sh:**
+
+![myScript](/Logbooks/img/Week4/myScript.png)
+
+
+**Running my_script.sh:**
+
+![runningMyScript](/Logbooks/img/Week4/runScript.png)

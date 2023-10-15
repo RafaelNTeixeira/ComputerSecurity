@@ -161,7 +161,7 @@ $ sudo chmod 4755 stack
 
 **p $ebd and p &buffer:** (get the value of ebp and buffer adress)
 
-![pEbdAndBuffer](/Logbooks/img/Week5/pEBDAndBuffer.png)
+![pEbdAndBuffer](/Logbooks/img/Week5/pEBDandBuffer.png)
 
 
 2. A python file, exploit.py, was given so that we can exploit the buffer overflow vulnerability in the target program, but it was given to us incomplete so we had to make some changes.
@@ -246,7 +246,7 @@ $./exploit.py // create the badfile
 $./stack-L1
 ```
 
-![Task3.5]()
+![Task3.5](/Logbooks/img/Week5/Task3.5.png)
 
 
 ## Task 4: Launching Attack without Knowing Buffer Size (Level 2)

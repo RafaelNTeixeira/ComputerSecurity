@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 
 4. We now compile it. If we add the -m32 flag, the 32 bit version will run, if we don't the 64-bit version will run.
 
-![Task1Make]()
+![Task1Make](/Logbooks/img/Week5/Task1Make.png)
 
 ## Task 2: Understanding the Vulnerable Program
 
@@ -139,8 +139,8 @@ $ sudo chmod 4755 stack
 
 6. We compiled it and checked the permissions, confirming the SET-UID bit
 
-![Task2Make]()
-![permissions]()
+![Task2Make](/Logbooks/img/Week5/Task2Make.png)
+![permissions](/Logbooks/img/Week5/permissions.png)
 
 
 ## Task 3: Launching Attack on 32-bit Program (Level 1)
@@ -148,16 +148,16 @@ $ sudo chmod 4755 stack
 1. We compiled and run the given program to see the adresses of the variables in the stack
 
 **gbd stack-L1-dbg:**
-![gbdStack]()
+![gbdStack](/Logbooks/img/Week5/gbdStack.png)
 
 **b bof and run:**
-![bBofAndRun]()
+![bBofAndRun](/Logbooks/img/Week5/bBofAndRun.png)
 
 **next:**
-![next]()
+![next](/Logbooks/img/Week5/next.png)
 
 **p $ebd and p &buffer:**
-![pEbdAndBuffer]()
+![pEbdAndBuffer](/Logbooks/img/Week5/pEBDAndBuffer.png)
 
 
 2.

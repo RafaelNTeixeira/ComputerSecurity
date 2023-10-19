@@ -253,7 +253,7 @@ $./stack-L1
 
 1. For this task, we reused the exploit.py and changed it into the exploit1.py file:
 
-```pyhton
+```python
 #!/usr/bin/python3
 import sys
 
@@ -290,14 +290,14 @@ with open('badfile', 'wb') as f:
 ```
 
 2. Explaining the changes made:
-    - We ran `gdb stack-L2-dbg` again and we verified that the $buffer variable was now `0xffffca90`. Because of that we changed the value of the `ret` variable to that address and added 400 since ...
+    - We ran `gdb stack-L2-dbg` again and we verified that the $buffer variable was now `0xffffca90`. Because of that we changed the value of the `ret` variable to that address and added 400 since we want to ensure that the return address points to a location within the buffer where the shellcode will be executed when the vulnerable program tries to return from the bof() function
     - We maintained the value of start so that the shellcode situates at the end of the buffer
     - Since now we only know the address of the buffer (and not the frame pointer), we need a new way of attempting to overflow the buffer. To reach that objetive this portion of code became really useful `for offset in range(50):
   content[offset*L:offset*4 + L] = (ret).to_bytes(L, byteorder='little'). The goal is to overwrite multiple return address slots in the buffer with the same calculated value, which is the address that we want the program to jump to when returning from a function
 
 3. After running the exploit, we checked for the ids and if we had root access:
 
-![runExploit1](/Logbooks/img/Week5/runExploit1.png)
+![runExploit1](/Logbooks/img/runExploit1.png)
 
 
 

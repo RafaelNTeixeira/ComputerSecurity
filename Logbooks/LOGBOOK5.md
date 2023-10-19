@@ -15,7 +15,7 @@ $ sudo ln -sf /bin/zsh /bin/sh
 ## Task 1: Getting Familiar with Shellcode
 - We cannot just compile this code and use the binary code as our shellcode 
 
-1. Write a shellcode is to use assembly code. Given two versions, 32-bit and 64-bit
+1. The best way to write a shellcode is to use assembly code. Given two versions, 32-bit and 64-bit
 
 2. Explaining how the 32.bit version works
     - The third instruction pushes "//sh", rather than "/sh" into the stack. This is because we need a

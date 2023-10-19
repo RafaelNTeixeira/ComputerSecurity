@@ -145,7 +145,7 @@ $ sudo chmod 4755 stack
 
 ## Task 3: Launching Attack on 32-bit Program (Level 1)
 
-1. We compiled and run the given program to see the adresses of the variables in the stack
+1. We compiled and ran the given program to see the adresses of the variables in the stack
 
 **gbd stack-L1-dbg:**
 
@@ -203,7 +203,7 @@ with open('badfile', 'wb') as f:
     - changed the `shellcode` value to the actual shellcode
     - changed the `start` value to `517 - len(shellcode)`, so that we place the end of the shellcode on the end of the buffer
     - changed the `ret` value to the adress where we want the program to jump to. We obtained this value by adding to the adress of the start of the buffer ($buffer) the value start (start == (517 - len(shellcode)) == 517 - 27 == 490). (0xffffc9ac + 490((in decimal) == 0x1ea in hexadecimal)) = 0xffffcb96.
-    - changed the `offset` value to 112 that corresponds to the distance between the start of the buffer and the adress of return. ($ebp adress - $buffer address) = (0xffffcad8 - 0xffffca6c) = 6c = 108 in decimal. So this means that $ebp starts at 108 bytes after the buffer and since it occupies 4 bytes we add that amount and we get the value of the offset, 112 bytes
+    - changed the `offset` value to 112 that corresponds to the distance between the start of the buffer and the adress of return. ($ebp adress - $buffer address) = (0xffffca18 - 0xffffca6c) = 6c = 108 in decimal. So this means that $ebp starts at 108 bytes after the buffer and since it occupies 4 bytes we add that amount and we get the value of the offset, 112 bytes
 
 **exploit.py:** (complete version)
 ```python

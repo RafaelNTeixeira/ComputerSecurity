@@ -248,7 +248,7 @@ gcc -shared -o myLIB.so.1.0.1 myLIB.o -lc
 
 ![envModified](/Logbooks/img/Week4/envModified.png?ref_type=heads)
 
-7. Doing this, our shared library is loaded before all the other ones, letting us override the access() function called in main.c. With this, we can copy the flag.txt present in the folder `/flags` to our own .txt file in the `/tmp` folder, we called it myflag.txt. Then we gave this file all the permissions with the command `chmod 4777 myflag.txt` and waited until the flag was transfered. Waiting a few minutes we got this:
+7. Doing this, our shared library is loaded before all the other ones, letting us override the access() function called in main.c. With this, we can copy the flag.txt present in the folder `/flags` to our own .txt file in the `/tmp` folder, we called it myflag.txt. Then we gave this file all the permissions with the command `chmod 4777 myflag.txt` and waited until the flag was transfered. Waiting a few seconds we got this:
 
 ![myFlag](/Logbooks/img/Week4/myflag.png?ref_type=heads)
 

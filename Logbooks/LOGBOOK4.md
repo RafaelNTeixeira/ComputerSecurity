@@ -212,7 +212,7 @@ int main() {
     return 0;
 ```
 
-3. Analysing these files, we realized that `my_script.sh` intended to define the environment variables trough the file present in `/home/flag_reader/env` if it exists and after that execute the program `reader`.
+3. Analysing these files and the Moodle report of the CTF, we realized that `my_script.sh` runs from time to time in the server and that it is intended to define the environment variables trough the file present in `/home/flag_reader/env` if it exists and then execute the program `reader`.
 
 4. By checking the permissions of the files, we checked that we had permission to change `env` and that it pointed to a env in a folder tmp
 
@@ -220,7 +220,7 @@ int main() {
 
 ![Permissions](/Logbooks/img/Week4/permissions.png)
 
-5. To achieve the flag, we based our program on the Task 7 of this week. We started by going to the folder `tmp` and there we inserted our program to overload the access function, we called it myLIB.c:
+5. To achieve the flag, we based our program on the Task 7 of this week. We started by going to the folder `tmp` and there we inserted our program to overload the access() function of the main.c file. We called it myLIB.c:
 
 **myLIB.c:**
 ```c++
@@ -230,14 +230,9 @@ int access(const char *pathname, int mode) {
     system("cat /flags/flag.txt > /tmp/myflag.txt");
     return 0;
 }
-
-
-gcc -fPIC -g -c myLIB.c
-
-gcc -shared -o myLIB.so.1.0.1 myLIB.o -lc
 ```
 
-6. Our main goal was to create our own custom dynamic link library (myLIB.c) and inject a EV LD_PRELOAD into `env` so that when the server runs `my_script` in root mode, that variable is exported. After that, the `reader` runs. 
+6. Our main goal was to create our own custom dynamic link library (myLIB.c) and inject a environment variable called LD_PRELOAD into `env` in the `/tmp` folder so that when the server runs `my_script.sh` in root mode, that variable is exported. After that, the `reader` runs. 
 
 ```
 $ gcc -fPIC -g -c myLIB.c

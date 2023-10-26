@@ -6,8 +6,15 @@ This week's lab topic revolves around the printf() and other similar functions i
 - modify the internal memory of the program
 - inject and execute malicious code using the victim program’sprivilege
 
+## Setting up
+
+Disabling address randomization:
+`sudo sysctl -w kernel.randomize_va_space=0``
+
 ## Task 1: Crashing the Program
 
+![Alt text](/Logbooks/img/Week7/task1_1.png)
+![Alt text](/Logbooks/img/Week7/task1_2.png)
 
 ## Task 2:  Printing Out the Server Program’s Memory
 

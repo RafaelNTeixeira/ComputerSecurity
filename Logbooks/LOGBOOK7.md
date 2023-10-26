@@ -18,6 +18,14 @@ Disabling address randomization:
 
 ## Task 2:  Printing Out the Server Program’s Memory
 
+### Task 2.A: Stack Data
+
+![Alt text](/Logbooks/img/Week7/task2A_1.png)
+![Alt text](/Logbooks/img/Week7/task2A_2.png)
+
+The stack is found after 64 characters or 256 bytes.
+
+### Task 2.B: Heap Data
 
 ## Task 3:  Modifying the Server Program’s Memory
 

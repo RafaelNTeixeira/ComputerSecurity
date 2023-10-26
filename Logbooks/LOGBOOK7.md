@@ -1,5 +1,11 @@
 # Trabalho realizado na Semana #7 - SEED Labs - Format-String Vulnerability Lab
 
+This week's lab topic revolves around the printf() and other similar functions in C. These functions, when not properly sanitized, can easily be used to:
+- crash the program
+- read the internal memory of the program
+- modify the internal memory of the program
+- inject and execute malicious code using the victim program’sprivilege
+
 ## Task 1: Crashing the Program
 
 

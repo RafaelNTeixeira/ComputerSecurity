@@ -8,32 +8,44 @@ This week's lab topic revolves around the printf() and other similar functions i
 
 ## Setting up
 
-Disabling address randomization:
-`sudo sysctl -w kernel.randomize_va_space=0``
+To complete these tasks, we needed to disable the adress space randomization security mechanism, to make it easier to identify the adresses of the components and so that the address of the variables stay the same in each execution of a program
+
+```
+$ sudo sysctl -w kernel.randomize_va_space=0
+```
 
 ## Task 1: Crashing the Program
 
+The task is to input to the server, such that when the server program tries to print out the user input in the myprintf() function, it will crash.
+
+We managed to Successfully crash the program by sending the "%s" string format specifier.
+Using the following command:
 ![Alt text](/Logbooks/img/Week7/task1_1.png)
+We got the following server message: (No smiley faces == program crash)
 ![Alt text](/Logbooks/img/Week7/task1_2.png)
 
 ## Task 2:  Printing Out the Server Program’s Memory
 
 ### Task 2.A: Stack Data
 
+The goal is to print out the data on the stack. For that we will use the "%x" format specifier joined with a character sequence 'ABCD' that's easy to find when the memory is printed. (Should appear as 44434241)
+
+Using the following command:
 ![Alt text](/Logbooks/img/Week7/task2A_1.png)
+We got the following server message:
 ![Alt text](/Logbooks/img/Week7/task2A_2.png)
 
 The stack is found after 64 characters or 256 bytes.
 
 ### Task 2.B: Heap Data
 
+
+
 ## Task 3:  Modifying the Server Program’s Memory
 
 ### Task 3.A: Change the value to a different value.
 
 ### Task 3.B: Change the value to 0x5000.
-
-### Task 3.C: Change the value to 0xAABBCCDD.
 
 
 

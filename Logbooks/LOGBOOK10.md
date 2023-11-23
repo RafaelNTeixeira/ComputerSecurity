@@ -1,10 +1,78 @@
 # Trabalho realizado na Semana #10 - Secret Key Encryption
 
-## Task 1 - Frequency Analysis
+## Task 1: Frequency Analysis
 
 1. Our objective is to find the encryption key and the original plaintext by using frequency analysis.
 
 2. Running a python file given, `freq.py`, the statistics for n-grams are produced and displayed:
+
+```
+1-gram (top 20):
+n: 488
+y: 373
+v: 348
+x: 291
+u: 280
+q: 276
+m: 264
+h: 235
+t: 183
+i: 166
+p: 156
+a: 116
+c: 104
+z: 95
+l: 90
+g: 83
+b: 83
+r: 82
+e: 76
+d: 59
+-------------------------------------
+2-gram (top 20):
+yt: 115
+tn: 89
+mu: 74
+nh: 58
+vh: 57
+hn: 57
+vu: 56
+nq: 53
+xu: 52
+up: 46
+xh: 45
+yn: 44
+np: 44
+vy: 44
+nu: 42
+qy: 39
+vq: 33
+vi: 32
+gn: 32
+av: 31
+-------------------------------------
+3-gram (top 20):
+ytn: 78
+vup: 30
+mur: 20
+ynh: 18
+xzy: 16
+mxu: 14
+gnq: 14
+ytv: 13
+nqy: 13
+vii: 13
+bxh: 13
+lvq: 12
+nuy: 12
+vyn: 12
+uvy: 11
+lmu: 11
+nvh: 11
+cmu: 11
+tmq: 10
+vhp: 10
+```
 
 ```py
 #!/usr/bin/env python3
@@ -136,3 +204,36 @@ DIRECTOR AND APART FROM ARGO MOVIES THAT LAND BEST PICTURE WITHOUT ALSO
 EARNING BEST DIRECTOR NOMINATIONS ARE FEW AND FAR BETWEEN
 ```
 
+
+## Task 2: Encryption using Different Ciphers and Modes
+
+1. We encrypted and decrypted text files using the following command (with the 3 variations - -aes-128-cbc, -bf-cbc, -aes-128-cfb):
+
+```
+$ openssl enc -ciphertype -e -in plain.txt -out cipher.bin \
+-K 00112233445566778889aabbccddeeff -iv 0102030405060708
+```
+
+2. We created a plain.txt file with the content and encrypted it:
+**plain.txt:**
+```
+Bad boy Rafa
+```
+
+**Encrypt command:**
+```
+$ openssl enc -aes-128-cbc -e -in plain.txt -out cipher.bin \
+-K 00112233445566778889aabbccddeeff -iv 0102030405060708
+```
+
+3. After, we decrypted it and obtained the same plain.txt content:
+
+**Decrypt command:**
+```
+$ openssl enc -aes-128-cbc -d -in cipher.bin -out plain.txt -K 00112233445566778889aabbccddeeff -iv 0102030405060708
+```
+
+**plain.txt**
+```
+Bad boy Rafa
+```

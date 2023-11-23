@@ -247,7 +247,7 @@ We then provide the header of the original image to the body of each encryption 
 
 1.1. By using ecb we get the following image:
 
-![ebc image encryption](ebc.png)
+![ebc image encryption](ecb.png)
 
 There's too much information that allows to reimagine the original picture. As the changes happen within blocks, there's little variations on how each pixel is changed. 
 

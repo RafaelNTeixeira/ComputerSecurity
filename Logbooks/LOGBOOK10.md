@@ -230,10 +230,21 @@ $ openssl enc -aes-128-cbc -e -in plain.txt -out cipher.bin \
 
 **Decrypt command:**
 ```
-$ openssl enc -aes-128-cbc -d -in cipher.bin -out plain.txt -K 00112233445566778889aabbccddeeff -iv 0102030405060708
+$ openssl enc -aes-128-cbc -d -in cipher.bin -out plain.txt \
+-K 00112233445566778889aabbccddeeff -iv 0102030405060708
 ```
 
 **plain.txt**
 ```
 Bad boy Rafa
 ```
+
+
+## Task 3: Encryption Mode – ECB vs. CBC
+
+1. Now the objective is to encrypt and decrypt an image
+
+2. 
+
+
+

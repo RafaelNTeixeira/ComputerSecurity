@@ -242,9 +242,19 @@ Bad boy Rafa
 
 ## Task 3: Encryption Mode – ECB vs. CBC
 
-1. Now the objective is to encrypt and decrypt an image
+1. Now the objective is to encrypt and decrypt an  with both ecb and cbc.
+We then provide the header of the original image to the body of each encryption to make them readable by image viewing software.
 
-2. 
+1.1. By using ecb we get the following image:
 
+![ebc image encryption](ebc.png)
+
+There's too much information that allows to reimagine the original picture. As the changes happen within blocks, there's little variations on how each pixel is changed. 
+
+1.2. By using cbc we get the following image:
+
+![cbc image encryption](cbc.png)
+
+By naked eye it's impossible to see the original picture. This is due to the fact, that each block of code encryption is based on a previous block, adding more caos to the new information, creating a feeling of randomness.
 
 

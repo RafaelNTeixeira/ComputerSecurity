@@ -149,3 +149,15 @@ q:
 
 - - - - - - - - - - - - - - - - - - - - - - -
 ```
+
+## Task 2: Generating a Certificate Request for Your Web Server
+
+openssl req -newkey rsa:2048 -sha256 \
+-keyout server.key -out server.csr \
+-subj "/CN=www.bank32.com/O=Bank32 Inc./C=US" \
+-passout pass:dees \
+-addext "subjectAltName = DNS:www.bank32.com, \
+DNS:www.bank32A.com, \
+DNS:www.bank32B.com"
+
+![BankCertificate](/Logbooks/img/Week11/PKI_-_task2.png)

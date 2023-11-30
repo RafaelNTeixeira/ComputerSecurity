@@ -161,3 +161,11 @@ DNS:www.bank32A.com, \
 DNS:www.bank32B.com"
 
 ![BankCertificate](/Logbooks/img/Week11/PKI_-_task2.png)
+
+## Task 3: Generating a Certificate for your server
+
+## Task 4: Deploying Certificate in an Apache-Based HTTPS Website
+
+## Task 5: Launching a Man-In-The-Middle Attack
+
+## Task 6: Launching a Man-In-The-Middle Attack with a Compromised CA

@@ -241,7 +241,7 @@ $ cat /etc/hosts
 10.9.0.80	www.example.com
 ``` 
 
-2. With this, a warning was displayed, more specifically: `Warning: Potencial Security Risk Ahead`, since the domain www.example.com wasn't added to the list of the certificate when we inserted these commands in Task 2:
+2. With this, a warning was displayed, more specifically: `Warning: Potencial Security Risk Ahead`, since the domain `www.example.com` wasn't added to the list of the certificate when we inserted these commands in Task 2:
 
 ```
 openssl req -newkey rsa:2048 -sha256 \
@@ -281,7 +281,7 @@ DNS:www.bank32B.com, \
 DNS:www.facebook.com"
 ``` 
 
-3. 
+3. We ran the following command:
 
 ``` 
 openssl ca -config myCA_openssl.cnf -policy policy_anything \
@@ -290,8 +290,8 @@ openssl ca -config myCA_openssl.cnf -policy policy_anything \
 -cert ca.crt -keyfile ca.key
 ``` 
 
-4. The steps from Task 4 are repeated, this is, the certificates are copied to the container and added to the apache server configuration.
+4. The steps from Task 4 were repeated, this is, the certificates are copied to the container and added to the apache server configuration.
 
-5. When entering the website again, the domain changed to www.facebook.com
+5. When entering the website again, we observed that the domain changed to www.facebook.com
 
 ![FacebookDomain](Logbooks/img/Week11/Facebook.png)

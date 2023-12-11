@@ -292,6 +292,6 @@ openssl ca -config myCA_openssl.cnf -policy policy_anything \
 
 4. The steps from Task 4 were repeated, this is, the certificates are copied to the container and added to the apache server configuration.
 
-5. When entering the website again, we observed that the domain changed to www.facebook.com
+5. When entering the website again, we observed that the domain changed to `www.facebook.com`
 
 ![FacebookDomain](Logbooks/img/Week11/Facebook.png)

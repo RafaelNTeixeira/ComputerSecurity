@@ -167,6 +167,7 @@ DNS:www.bank32B.com"
 ## Task 3: Generating a Certificate for your server
 
 After running:
+
 ```
 openssl ca -config myCA_openssl.cnf -policy policy_anything \
 -md sha256 -days 3650 \
@@ -203,12 +204,13 @@ ServerAlias www.bank32A.com
 ServerAlias www.bank32B.com
 DirectoryIndex index.html
 SSLEngine On
-SSLCertificateFile /certs/bank32.crt ¿
-SSLCertificateKeyFile /certs/bank32.key ¡
+SSLCertificateFile /certs/bank32.crt 
+SSLCertificateKeyFile /certs/bank32.key 
 </VirtualHost>
 ```
 
 2. Enable the Apache's module and enable this site:
+
 ```
 $ a2enmod ssl
 $ a2ensite bank32_apache_ssl
@@ -217,9 +219,6 @@ $ a2ensite bank32_apache_ssl
 3. Start the server and gained access to it:
 ```
 $ service apache2 start
- * Starting Apache httpd web server apache2
-Enter passphrase for SSL/TLS keys for www.bank32.com:443 (RSA):
- *
 ```
 
 4. As we started the server, we observed that it wasn't secure, but after adding the certificate, we can now have secure access:
@@ -231,6 +230,7 @@ Enter passphrase for SSL/TLS keys for www.bank32.com:443 (RSA):
 In this task, we will show how PKI can defeat Man-In-The-Middle (MITM) attacks. 
 
 1. We added the site `www.example.com` as a host:
+
 ``` 
 $ cat /etc/hosts
 
@@ -238,4 +238,55 @@ $ cat /etc/hosts
 10.9.0.80	www.example.com
 ``` 
 
+2. With this, a warning was displayed, more specifically: `Warning: Potencial Security Risk Ahead`, since the domain www.example.com wasn't added to the list of the certificate when we inserted these commands in Task 2:
+
+```
+openssl req -newkey rsa:2048 -sha256 \
+-keyout server.key -out server.csr \
+-subj "/CN=www.bank32.com/O=Bank32 Inc./C=US" \
+-passout pass:dees \
+-addext "subjectAltName = DNS:www.bank32.com, \
+DNS:www.bank32A.com, \
+DNS:www.bank32B.com"
+```
+
+
 ## Task 6: Launching a Man-In-The-Middle Attack with a Compromised CA
+
+For the last task, we assume that the root CA created in Task 1 is compromised by an attacker, and its private key
+is stolen. Therefore, the attacker can generate any arbitrary certificate using this CA’s private key. With this, in this task, we will see the consequence of such a compromise.
+
+1. First, we added `www.facebook.com` to the /etc/hosts folder:
+
+```
+[01/20/22]seed@VM:~/.../lab$ cat /etc/hosts
+
+10.9.0.80	www.bank32.com
+10.9.0.80	www.example.com
+10.9.0.80   www.facebook.com
+```
+
+2. Then, we added `www.facebook.com` to the certificate DNS values:
+
+``` 
+openssl req -newkey rsa:2048 -sha256 \
+-keyout server.key -out server.csr \
+-subj "/CN=www.bank32.com/O=Bank32 Inc./C=US" \
+-passout pass:dees -addext "subjectAltName = DNS:www.bank32.com, \
+DNS:www.bank32A.com, \
+DNS:www.bank32B.com, \
+DNS:www.facebook.com"
+``` 
+
+3. 
+
+``` 
+openssl ca -config myCA_openssl.cnf -policy policy_anything \
+-md sha256 -days 3650 \
+-in server.csr -out server.crt -batch \
+-cert ca.crt -keyfile ca.key
+``` 
+
+4. The steps from Task 4 are repeated, this is, the certificates are copied to the container and added to the apache server configuration.
+
+5. When entering the website again, the domain changed to www.facebook.com

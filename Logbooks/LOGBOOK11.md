@@ -226,7 +226,7 @@ $ service apache2 start
 
 4. As we started the server, we observed that it wasn't secure, but after adding the certificate, we can now have secure access:
 
-![Secure]()
+![Secure](Logbooks/img/Week11/Secure.png)
 
 ## Task 5: Launching a Man-In-The-Middle Attack
 
@@ -266,7 +266,7 @@ is stolen. Therefore, the attacker can generate any arbitrary certificate using 
 
 10.9.0.80	www.bank32.com
 10.9.0.80	www.example.com
-10.9.0.80   www.facebook.com
+10.9.0.80	www.facebook.com
 ```
 
 2. Then, we added `www.facebook.com` to the certificate DNS values:
@@ -293,3 +293,5 @@ openssl ca -config myCA_openssl.cnf -policy policy_anything \
 4. The steps from Task 4 are repeated, this is, the certificates are copied to the container and added to the apache server configuration.
 
 5. When entering the website again, the domain changed to www.facebook.com
+
+![FacebookDomain](Logbooks/img/Week11/Facebook.png)

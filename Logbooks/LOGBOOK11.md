@@ -166,6 +166,9 @@ DNS:www.bank32B.com"
 
 ## Task 3: Generating a Certificate for your server
 
+In this lab, we will use our own trusted CA to generate
+certificates
+
 After running:
 
 ```

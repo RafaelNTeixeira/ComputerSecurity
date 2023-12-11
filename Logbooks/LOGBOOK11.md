@@ -168,18 +168,74 @@ DNS:www.bank32B.com"
 
 After running:
 ```
-openssl ca -config myCA_openssl.cnf -policy policy_anything\
-            -md sha256 -days 3650\
-            -in server.csr -out server.crt -batch\
-            -cert ca.crt -keyfile ca.key
+openssl ca -config myCA_openssl.cnf -policy policy_anything \
+-md sha256 -days 3650 \
+-in server.csr -out server.crt -batch \
+-cert ca.crt -keyfile ca.key
 ```
 
 ```
 openssl x509 -in server.crt -text -noout
 ```
 
+We can check all the distinct **Subjective Alternative Names** that were defined in the previous task:
+
+```
+X509v3 Subject Key Identifier: 
+ 66:2C:F2:84:7E:AF:C6:B7:2D:14:56:44:57:67:24:7B:3F:CF:ED:C9
+X509v3 Authority Key Identifier: 
+ keyid:A5:0A:84:53:EF:91:FA:13:77:4B:DA:50:94:82:79:88:A2:A9:3B:40
+X509v3 Subject Alternative Name: 
+ DNS:www.bank32.com, DNS:www.bank32A.com, DNS:www.bank32B.com
+```
+
 ## Task 4: Deploying Certificate in an Apache-Based HTTPS Website
 
+In this task, we will see how public-key certificates are used by websites to secure web browsing.
+
+1. Setup the HTTPs website called Apache:
+
+```
+<VirtualHost *:443>
+DocumentRoot /var/www/bank32
+ServerName www.bank32.com
+ServerAlias www.bank32A.com
+ServerAlias www.bank32B.com
+DirectoryIndex index.html
+SSLEngine On
+SSLCertificateFile /certs/bank32.crt ¿
+SSLCertificateKeyFile /certs/bank32.key ¡
+</VirtualHost>
+```
+
+2. Enable the Apache's module and enable this site:
+```
+$ a2enmod ssl
+$ a2ensite bank32_apache_ssl
+```
+
+3. Start the server and gained access to it:
+```
+$ service apache2 start
+ * Starting Apache httpd web server apache2
+Enter passphrase for SSL/TLS keys for www.bank32.com:443 (RSA):
+ *
+```
+
+4. As we started the server, we observed that it wasn't secure, but after adding the certificate, we can now have secure access:
+
+![Secure]()
+
 ## Task 5: Launching a Man-In-The-Middle Attack
+
+In this task, we will show how PKI can defeat Man-In-The-Middle (MITM) attacks. 
+
+1. We added the site `www.example.com` as a host:
+``` 
+$ cat /etc/hosts
+
+10.9.0.80	www.bank32.com
+10.9.0.80	www.example.com
+``` 
 
 ## Task 6: Launching a Man-In-The-Middle Attack with a Compromised CA

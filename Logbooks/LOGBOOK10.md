@@ -260,9 +260,9 @@ By naked eye it's impossible to see the original picture. This is due to the fac
 
 # CTF10 - Weak Encryption
 
-- How can I use this ciphersuite to encrypt and decrypt data?
+**How can I use this ciphersuite to encrypt and decrypt data?**
 
-By using the functions gen() and enc(), we can generate and encrypt data, respectively. For decryption, we rely on the dec() function.
+- By using the functions gen() and enc(), we can generate and encrypt data, respectively. For decryption, we rely on the dec() function.
 
 **Example:**
 
@@ -283,14 +283,14 @@ print(decrypted_message)
 ```
 
 
-- How can I exploit the vulnerability I observed to break the code?
+**How can I exploit the vulnerability I observed to break the code?**
 
-We identified a vulnerability in the gen() function. It generates random byte keys where the last 3 bytes have the value `0`. Therefore, we can resort to a brute force attack to gain access to the flag.
+- We identified a vulnerability in the gen() function. It generates random byte keys where the last 3 bytes have the value `0`. Therefore, we can resort to a brute force attack to gain access to the flag.
 
 
-- How can I automate this process so that my attack knows it found the flag?
+**How can I automate this process so that my attack knows it found the flag?**
 
-To automate this process, we use a loop that iterates through all possible messages. If one of these contains the "flag" pattern, it means the attack was successful, and we stop the loop.
+- To automate this process, we use a loop that iterates through all possible messages. If one of these contains the "flag" pattern, it means the attack was successful, and we stop the loop.
 
 1. We analised the given `cipherspec.py` file and we found a vulnerability in the function gen(). This function is responsible for creating random byte keys, where the last 3 bytes with the value `0` are not fixated. With this, a brute force attack is possible since we only need to explore a vulnerability in those three last bytes:
 
@@ -304,7 +304,7 @@ def gen():
 
 2. We retrieved the values cipher and nonce from the server:
 
-![NonceAndCipherValues](/Logbooks/img/Week10/NonceAndCipher.png)
+![NonceAndCipherValues](/Logbooks/img/Week10/nonceAndCipher.png)
 
 
 3. We wrote a script that generates all 256^3 possible keys for accessing the flag, utilizing the dec() function from the cipherspec.py file:
@@ -345,4 +345,4 @@ if __name__ == '__main__':
 
 4. With this, after running the script on the terminal and waiting about 5 minutes, we got the flag:
 
-![flag]()
+![flag](/Logbooks/img/Week10/flag.png)

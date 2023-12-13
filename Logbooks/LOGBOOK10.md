@@ -260,6 +260,38 @@ By naked eye it's impossible to see the original picture. This is due to the fac
 
 # CTF10 - Weak Encryption
 
+- How can I use this ciphersuite to encrypt and decrypt data?
+
+By using the functions gen() and enc(), we can generate and encrypt data, respectively. For decryption, we rely on the dec() function.
+
+**Example:**
+
+```py
+key = gen()
+nonce = binascii.unhexlify("nonce_in_hexadecimal")
+plaintext = b'Message to be encrypted'
+ciphertext = enc(key, plaintext, nonce)
+
+```
+
+```py
+key = gen()
+nonce = binascii.unhexlify("nonce_in_hexadecimal")
+decrypted_message = dec(key, ciphertext, nonce)
+print(decrypted_message)
+
+```
+
+
+- How can I exploit the vulnerability I observed to break the code?
+
+We identified a vulnerability in the gen() function. It generates random byte keys where the last 3 bytes have the value `0`. Therefore, we can resort to a brute force attack to gain access to the flag.
+
+
+- How can I automate this process so that my attack knows it found the flag?
+
+To automate this process, we use a loop that iterates through all possible messages. If one of these contains the "flag" pattern, it means the attack was successful, and we stop the loop.
+
 1. We analised the given `cipherspec.py` file and we found a vulnerability in the function gen(). This function is responsible for creating random byte keys, where the last 3 bytes with the value `0` are not fixated. With this, a brute force attack is possible since we only need to explore a vulnerability in those three last bytes:
 
 ```py
@@ -270,7 +302,7 @@ def gen():
     return bytes(key)
 ```
 
-2. We retrieves the values cipher and nonce from the server:
+2. We retrieved the values cipher and nonce from the server:
 
 ![NonceAndCipherValues](/Logbooks/img/Week10/NonceAndCipher.png)
 
@@ -278,23 +310,39 @@ def gen():
 3. We wrote a script that generates all 256^3 possible keys for accessing the flag, utilizing the dec() function from the cipherspec.py file:
 
 ```py
-with open('text.txt', 'w') as file:
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+import os
+import binascii
+
+from cipherspec import dec
+
+KEYLEN = 16
+offset = 3
+
+def main():
+    nonce = binascii.unhexlify("4ed0e7f01b499abb530fed9099955979")
+    cipher = binascii.unhexlify("bbaa6de9bd9bbd47af6d692274d62ba98fd36f9c452f8c94178613933194159ecb91621a94447d")
+
     for i in range(256):
         for j in range(256):
             for k in range(256):
-                key = bytearray(b'\x00' * (KEYLEN - offset) + bytes([i, j, k]))
-                
-                decrypted_message = dec(key, cipher, nonce)
-                decoded_message = decrypted_message.decode('ascii', 'backslashreplace')
-                
-                file.write(decoded_message)
-                
-                if decoded_message.startswith("flag"):
-                    print(decoded_message)
+                key = bytearray(b'\x00' * (KEYLEN - offset)) + bytes([i, j, k])
+
+                decrypted_message = Cipher(algorithms.AES(bytes(key)), modes.CTR(nonce))
+                dec = decrypted_message.decryptor()
+
+                msg = b""
+                msg += dec.update(cipher)
+                msg += dec.finalize()
+
+                if msg.startswith(b"flag"):
+                    print(msg)
+                    break
+
+if __name__ == '__main__':
+    main()
 ```
 
-4. With this, we aimed to save the results in a text.txt file and to print the values that start with `flag` in the console, but sadly something wrong happened and there was nothing printed in the console and this was the output of the file:
-```
-硜ㅡ屖㥸屡摸⑤硜改屣摸尷扸就摸乡硜敥硜敦䅔硜㕤䙒硜㡤硜慥硜㉢尕㡸䩥硜ㄹ㌟硜㉢唭硜ㅥ硜㑥塮硜戹Ѣ尵數䠸硜晡硜㤹硜捥ᅊ硜ㅤ硜㍣屋摸圴硜㥣硜㥡硜晣硜づ硜摦硜换硜㥦硜扤硜ㄹ硜ㅢ硜晣樆硜㌹‖硜㐹硜㡦圇彥硜づ㠢硜摣屜慸坡尉捸尹摸屣扸ⵢ硜敢硜摥⡝洔硜㙥硜㥡䁞硜捥恱硜㉥硜㉤ᔗ᝷尻晸屦摸尹捸尲摸履扸履㥸硢尹摸尲晸̴硜㝣ୌ弊尌數ሶ硜㑡硜て山捸て硜㤸硜㘸硜㑢硜㙦硜扥屛慸尶扸就㡸屢慸屦晸噢硜㡣硜㔸硜㌸硜ㅡ硜㑣硜敥硜㕦䤏尤捸尴扸尲㥸尹捸尶捸形硜ㄸ硜愹属㡸条硜㕢硜㉥屉慸╥屵慸屡扸尹摸尳㡸倶硜㉡硜捦ጭ䵿屦捸屣數屣摸ࡢ硜㉤䉻硜㐹ⴏ嘖硜㠸尔數尶㡸尵數尵㡸尰捸尶㥸層慸尶㡸ᅦ屛慸䱢就數履扸就晸㭦硜㍦硜㐹硜㌹穸屝㥸申縁硜慢硜㍤硜㕡硜㝦硜扤硜㑦硜捦硜つ屑㡸र硜㑥尌晸稸硜㍡硜扤硜㙣尔捸琲硜〸䵡彖硜愸尿摸䙢硜㉣屲㥸䕣䐞ᨴ尘㡸屣慸屡㥸⍤硜㘸㙖砵硜㐸屭捸屦數健灑硜慦外⌿嬣硜㈹硜㙢䰸ȹ硜ㅥ硜晦硜扣屓㡸㙦ฯ硜摣小㥸尷㡸尰慸尴扸塤專㡸尵摸䜸ᔳ硜㜹硜㥡屔晸䰹渼尒慸㉢硜㐹硜摣硜㜸屠扸ቦ硜㕤硜㘹屛捸朴硜捡屒扸屣慸ᐱ㜶屩扸攳硜㑢尳數屣數尲晸㠰硜㈹〖尷慸屦捸尵㡸尳摸就晸尶數欳硜扡笨硜慣屁扸尴扸尴扸䉣硜晥䌪畝尜捸形硜㈹硜扣硜捥䱶硜㡣䕂吁硜㡤硜㡡ㅔ硜㠸硜散硜㥥⡨䘾硜㍡硜ㄸൂ杢ᐅ硜㥥尬㡸㉣硜ぢ硜㉡⩺屋晸٤唷硜つ㝎硜戹奅硜㍢硜㡥硜㉢硜㉢硜㤹尭㥸尳㥸丱硜㥥告硜㉢硜㡢硜晥尷慸✲屚扸䘹恼硜㝥尐
-...
-```
+4. With this, after running the script on the terminal and waiting about 5 minutes, we got the flag:
+
+![flag]()

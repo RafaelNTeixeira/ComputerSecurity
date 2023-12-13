@@ -307,7 +307,7 @@ def gen():
 ![NonceAndCipherValues](/Logbooks/img/Week10/nonceAndCipher.png)
 
 
-3. We wrote a script that generates all 256^3 possible keys for accessing the flag, utilizing the dec() function from the cipherspec.py file:
+3. We wrote a script that generates all 256^3 possible keys for accessing the flag. When one of these keys contains the pattern "flag", it means that we gained access to it.
 
 ```py
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes

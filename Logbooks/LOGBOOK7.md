@@ -231,7 +231,7 @@ $ echo -e '\x60\xc0\x04\x08%s' | nc ctf-fsi.fe.up.pt 4004
 
 5. To try to solve this problem, we decided to add 4 bytes before the address of the `key` variable so that when the `%x` instruction is executed, the stack pointer points to the address of the `key` variable. This gives us the string `####\x20\xb3\x04\x08%48871x%n`. When running the script, we obtained the shell so we ran the command `cat flag.txt` to obtain the flag.
 
-![flag]()
+![flag](Logbooks/img/Week7/flagDesafio2.png)
 
 
 ```py

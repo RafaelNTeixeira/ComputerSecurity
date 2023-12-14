@@ -295,3 +295,76 @@ openssl ca -config myCA_openssl.cnf -policy policy_anything \
 5. When entering the website again, we observed that the domain changed to `www.facebook.com`
 
 ![FacebookDomain](Logbooks/img/Week11/Facebook.png)
+
+
+# CTF11 - RSA
+
+1. Based on the Moodle form, we noticed that to solve this CTF, we would need to implement an algorithm to find prime numbers, preferably by using the Miller-Rabin algorithm. More specifically, we needed to discover the values of `p`, `q`, `e`, `n` and `d`:
+
+    - **`p`**: prime number close to 2<sup>512</sup>
+    - **`q`**: prime number close to 2<sup>513</sup>
+    - **`e`**: public exponent
+    - **`n`**: associated modulus
+    - **`d`**:  private key obtained through `pow(e, -1, (p-1) * (q-1))`
+
+
+**millerRabinAlgo():**
+
+```py
+def millerRabinAlgo(d, n):
+    a = 2 + random.randint(1, n - 4)
+    x = pow(a, d, n)
+ 
+    if (x == 1 or x == n - 1):
+        return True
+ 
+    while (d != n - 1):
+        x = (x * x) % n
+        d *= 2
+ 
+        if (x == 1):
+            return False
+
+        if (x == n - 1):
+            return True
+ 
+    return False # composite
+```
+
+
+
+2. We accessed the server and verified that the values `e`, `n`, and `ciphertext` were already provided.
+
+3. To determine the remaining values, we started by searching all the possible prime numbers for `p` and `q`:
+
+```py
+for i in range(primes_p - 1000, primes_p + 1000):
+    if isPrime(i, 100): low_primes.append(i)  # 100 is used to increase the accuracy of the isPrime function
+
+for i in range(primes_q - 1000, primes_q + 1000):
+    if isPrime(i, 100): high_primes.append(i) # 100 is used to increase the accuracy of the isPrime function
+```
+
+
+4. We knew we had the correct values of `p` and `q` when the multiplication of a combination of possible values for `p` and `q` equaled the provided modulus `n`:
+
+```py
+for low in low_primes:
+    for high in high_primes:
+        if (low * high) == N:
+            P = low
+            Q = high
+```
+
+
+5. Having obtained the values of `p` and `q`, we determined the value of `phi` ((p-1) * (1-q)), to determine `d`:
+
+```py
+PHI = (P-1) * (Q-1)
+d = pow(E, -1, PHI)
+```
+
+
+6. Obtaining the value of the private key, we decrypted it using the `dec()` function and printed its value, thus revealing the flag:
+
+![flag](/Logbooks/img/Week11/flag.png)

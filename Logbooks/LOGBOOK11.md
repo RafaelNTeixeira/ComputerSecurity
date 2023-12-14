@@ -296,6 +296,8 @@ openssl ca -config myCA_openssl.cnf -policy policy_anything \
 
 ![FacebookDomain](Logbooks/img/Week11/Facebook.png)
 
+---
+
 
 # CTF11 - RSA
 
@@ -338,6 +340,23 @@ def millerRabinAlgo(d, n):
 3. To determine the remaining values, we started by searching all the possible prime numbers for `p` and `q`:
 
 ```py
+def isPrime(n, k):
+    if (n <= 1 or n == 4):
+        return False
+
+    if (n <= 3):
+        return True
+ 
+    d = n - 1
+    while (d % 2 == 0):
+        d //= 2
+ 
+    for i in range(k):
+        if (millerRabinAlgo(d, n) == False):
+            return False
+ 
+    return True
+
 for i in range(primes_p - 1000, primes_p + 1000):
     if isPrime(i, 100): low_primes.append(i)  # 100 is used to increase the accuracy of the isPrime function
 

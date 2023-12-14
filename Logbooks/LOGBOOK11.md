@@ -334,7 +334,6 @@ def millerRabinAlgo(d, n):
 ```
 
 
-
 2. We accessed the server and verified that the values `e`, `n`, and `ciphertext` were already provided.
 
 3. To determine the remaining values, we started by searching all the possible prime numbers for `p` and `q`:

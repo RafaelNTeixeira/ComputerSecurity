@@ -21,7 +21,7 @@ tls.handshake.type == 1
 
 3. By choosing the "Follow TCP Stream" option starting from the frame_start, we could access a chronological list of packets exchanged in the TCP connection associated with that specific frame. This feature allows you to observe the sequential flow of data within the connection, providing a detailed overview of the communication between the involved hosts. 
 
-4.There, on the frame number 819, we found the "Finished" Message. Since it is the message that concludes the handshake, we can get the length of the TLS to determine the `size_of_encrypted_message` field of the flag, that is 80.
+4. There, on the frame number 819, we found the "Finished" Message. Since it is the message that concludes the handshake, we can get the length of the TLS to determine the `size_of_encrypted_message` field of the flag, that is 80.
 
 ![frame_end_AND_size_encrypted_message](Logbooks/img/Week13/frame_end_AND_size_of_encrypted_message.png)
 

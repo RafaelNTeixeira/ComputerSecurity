@@ -74,7 +74,8 @@ Our objective was to demonstrate our sniffer program with the corresponding filt
 - Capture packets comes from or to go to a particular subnet. You can pick any subnet, such as
 128.230.0.0/16; you should not pick the subnet that your VM is attached to.
 
-- **Capture only the ICMP packet:**
+
+##### Capture only the ICMP packet:
 
 1. We used the filter `icmp` and got this:
 
@@ -102,7 +103,7 @@ Our objective was to demonstrate our sniffer program with the corresponding filt
 -...
 ```
 
-- **Capture any TCP packet that comes from a particular IP and with a destination port number 23:**
+##### Capture any TCP packet that comes from a particular IP and with a destination port number 23:
 
 1. We used the filter `tcp && src host 10.0.2.5 && dst port 23` and we got this:
 
@@ -125,7 +126,7 @@ Our objective was to demonstrate our sniffer program with the corresponding filt
 ...
 ```
 
-- **Capture packets comes from or to go to a particular subnet. You can pick any subnet, such as 128.230.0.0/16; you should not pick the subnet that your VM is attached to:**
+##### Capture packets comes from or to go to a particular subnet. You can pick any subnet, such as 128.230.0.0/16; you should not pick the subnet that your VM is attached to:
 
 1. We used the filter `net 128.230.0.0/16` and got this:
 

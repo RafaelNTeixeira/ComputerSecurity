@@ -242,28 +242,28 @@ In this task, we will combine the sniffing and spoofing techniques to implement 
 
 Our objective is to analyse and discuss what is observated when running the following pings:
 
-- ping 1.2.3.4
-- ping 10.9.0.99
-- ping 8.8.8.8
+- `ping 1.2.3.4`
+- `ping 10.9.0.99`
+- `ping 8.8.8.8`
 
 
 1. **ping 1.2.3.4**
 - We used the filter `icmp and host 1.2.3.4`.
-- Only some packets are being sent and received. There is an estimation of 83.1% packet loss since the host doesn't exist on the Internet
+- Only some packets are being sent and received. There is an estimation of 83% packet loss since the host doesn't exist on the Internet.
 
-![ping 1.2.3.4]()
+![ping 1.2.3.4](Logbooks/img/Week13/ping_1.2.3.4.png)
 
 2. **ping 10.9.0.99**
 - We used the filter `icmp and host 10.9.0.99`
-- When trying to send the packets, a warning `Destination Host Unreacheble` was given and there was 100% packet loss. This is due to the fact that since the host doesn't exist on the LAN, the source machine cannot obtain the MAC adress of the destination machine, preventing the transmission of the packets
+- When trying to send the packets, a warning `Destination Host Unreacheble` was given and there was 100% packet loss. This is due to the fact that since the host doesn't exist on the LAN, the source machine cannot obtain the MAC adress of the destination machine, preventing the transmission of the packets.
 
-![ping 10.9.0.99]()
+![ping 10.9.0.99](Logbooks/img/Week13/ping_10.9.0.99.png)
 
 3. **ping ping 8.8.8.8**
 - We used the filter `icmp and host 8.8.8.8` 
-- The packets are being sent and received successfully. There is 0% packet loss
+- The packets are being sent and received successfully. There is 0% packet loss.
 
-![ping 8.8.8.8]()
+![ping 8.8.8.8](Logbooks/img/Week13/ping_8.8.8.8.png)
 
 
 

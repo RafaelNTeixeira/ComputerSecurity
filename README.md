@@ -1,5 +1,5 @@
 # Computer Security
 
-- Gaining insights in Computer Security and applying obtained knowledge by completing challenges and tasks. Tasks/Challenge completion logs can be checked [here](./Logbooks)
+- Gaining insights in Computer Security and applying obtained knowledge by completing challenges and tasks. Tasks/Challenge completion logs can be checked [here](./Logbooks) (10 different logs).
 
 **Programming Language:** Python
